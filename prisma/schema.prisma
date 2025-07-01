@@ -1,0 +1,101 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          String   @id @default(cuid())
+  nome        String
+  email       String   @unique
+  senha       String
+  departamento String
+  cargo       String
+  ativo       Boolean  @default(true)
+  criadoEm    DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  // Relacionamentos
+  chamadosCriados    Chamado[] @relation("ChamadoCriador")
+  chamadosAtribuidos Chamado[] @relation("ChamadoAtribuido")
+  comentarios        Comentario[]
+  historicoAcoes     HistoricoAcao[]
+
+  @@map("usuarios")
+}
+
+model Chamado {
+  id          String   @id @default(cuid())
+  titulo      String
+  descricao   String
+  prioridade  String // BAIXA, MEDIA, ALTA, CRITICA
+  status      String @default("ABERTO") // ABERTO, EM_ANDAMENTO, AGUARDANDO_RESPOSTA, RESOLVIDO, FECHADO, CANCELADO
+  categoria   String
+  criadoEm    DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+  resolvidoEm DateTime?
+
+  // Relacionamentos
+  criadorId   String
+  criador     Usuario @relation("ChamadoCriador", fields: [criadorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  
+  atribuidoId String?
+  atribuido   Usuario? @relation("ChamadoAtribuido", fields: [atribuidoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  comentarios     Comentario[]
+  historicoAcoes  HistoricoAcao[]
+  anexos          Anexo[]
+
+  @@map("chamados")
+}
+
+model Comentario {
+  id        String   @id @default(cuid())
+  conteudo  String
+  criadoEm  DateTime @default(now())
+
+  // Relacionamentos
+  chamadoId String
+  chamado   Chamado @relation(fields: [chamadoId], references: [id], onDelete: Cascade)
+  
+  autorId   String
+  autor     Usuario @relation(fields: [autorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("comentarios")
+}
+
+model HistoricoAcao {
+  id        String   @id @default(cuid())
+  acao      String
+  detalhes  String?
+  criadoEm  DateTime @default(now())
+
+  // Relacionamentos
+  chamadoId String
+  chamado   Chamado @relation(fields: [chamadoId], references: [id], onDelete: Cascade)
+  
+  usuarioId String
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("historico_acoes")
+}
+
+model Anexo {
+  id          String   @id @default(cuid())
+  nomeArquivo String
+  caminhoArquivo String
+  tamanho     Int
+  tipoMime    String
+  criadoEm    DateTime @default(now())
+
+  // Relacionamentos
+  chamadoId String
+  chamado   Chamado @relation(fields: [chamadoId], references: [id], onDelete: Cascade)
+
+  @@map("anexos")
+}
+
