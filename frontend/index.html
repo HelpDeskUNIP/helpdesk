@@ -1,64 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <!-- Link CSS-->
-     <link rel="stylesheet" href="style.css">
-    <title> Tela De Login Responsiva</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div class="container-login">
-        <div class="img-box">
-            <img src="imgs/BemVindos.jpg">
+    <div class="form">
+        <div class="leftside">
+            <img src="./Img/welcome.png">
+            <h1>Seja Bem-vindo ao HelpDesk</h1>
         </div>
-        <div class="content-box">
-            <div class="form-box">
-                <h2>Login</h2>
-                <form>
-                    <div class="input-box">
-                        <span>Username</span>
-                        <input type="email" placeholder="Nome de usuário"> 
-                    </div>
-
-                    <div class="input-box">
-                        <span>Password</span>
-                        <input type="password" placeholder="Senha"> 
-                    </div>
-
-                    <div class="password"></div>
-                        <a href="#"> Esqueci minha senha</a>
-                    </div>
-
-                    <div class="input-box">
-                            <input type="submit" value="Entrar">
-                    </div>
-
-
-
-
-
-
-                </form>
-
-
-
-
-
-
+        <div class="rightside">
+            <h2>LOGIN</h2>
+            <div class="input-container">
+                <div class="input">
+                    <i class="fa fa-user"></i>
+                    <input type="text" placeholder="Usuário">
+                </div>
+                <div class="input">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" placeholder="Senha">
+                </div>
+                <input type="submit" class="login" value="LOGIN">
+               
+                <h6><span>Esqueci minha senha</span></h6>
             </div>
         </div>
-
-
-
-
-
-
-
     </div>
-
-
 </body>
-
 </html>
